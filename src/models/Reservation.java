@@ -1,16 +1,31 @@
-package modals;
+package models;
 
 import java.util.Date;
 
 public class Reservation {
+  private int idReservation;
   private Date dateEmprunt;
 
   private Date dateRecuperation;
   private String statut;
-  private Object livre;
-  private Object emprunteur;
+  private Livre livre;
+  private Emprunteur emprunteur;
 
-  public Reservation(Date dateEmprunt, String statut, Object livre, Object emprunteur) {
+  public Reservation(Date dateEmprunt, Date dateRecuperation, String statut) {
+    this.dateEmprunt = dateEmprunt;
+    this.dateRecuperation = dateRecuperation;
+    this.statut = statut;
+  }
+
+  public Reservation(int idReservation,Date dateEmprunt, Date dateRecuperation, String statut) {
+    this.idReservation = idReservation;
+    this.dateEmprunt = dateEmprunt;
+    this.dateRecuperation = dateRecuperation;
+    this.statut = statut;
+  }
+
+  public Reservation(int idReservation,Date dateEmprunt, String statut, Livre livre, Emprunteur emprunteur) {
+    this.idReservation = idReservation;
     this.dateEmprunt = dateEmprunt;
     this.statut = statut;
     this.livre = livre;
@@ -25,7 +40,7 @@ public class Reservation {
     this.statut = statut;
   }
 
-  public void setLivre(Object livre) {
+  public void setLivre(Livre livre) {
     this.livre = livre;
   }
 
@@ -45,7 +60,7 @@ public class Reservation {
     return dateEmprunt;
   }
 
-  public void setEmprunteur(Object emprunteur) {
+  public void setEmprunteur(Emprunteur emprunteur) {
     this.emprunteur = emprunteur;
   }
 
