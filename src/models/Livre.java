@@ -3,26 +3,28 @@ import java.util.ArrayList;
 public class Livre {
     private int idLivre;
     private String titre;
-    private String auteur;
     private int numeroISBN;
     private int quantity;
+
+    private  String nomAuteur;//input
+
+    private Auteur auteur;
     private ArrayList<Reservation> reservations;
 
     public Livre(int idLivre) {
         this.idLivre = idLivre;
     }
 
-    public Livre(String titre, String auteur, int numeroISBN, int quantity) {
+    public Livre(String titre, int numeroISBN, int quantity) {
 
         this.titre = titre;
-        this.auteur = auteur;
+        this.nomAuteur = nomAuteur;
         this.numeroISBN = numeroISBN;
         this.quantity = quantity;
     }
-    public Livre(int idLivre,String titre, String auteur, int numeroISBN, int quantity) {
+    public Livre(int idLivre,String titre, int numeroISBN, int quantity) {
         this.idLivre=idLivre;
         this.titre = titre;
-        this.auteur = auteur;
         this.numeroISBN = numeroISBN;
         this.quantity = quantity;
     }
@@ -30,7 +32,7 @@ public class Livre {
     public Livre(int idLivre,String titre, String auteur, int numeroISBN, int quantity, ArrayList<Reservation> reservations) {
         this.idLivre=idLivre;
         this.titre = titre;
-        this.auteur = auteur;
+        //this.auteur = auteur;
         this.numeroISBN = numeroISBN;
         this.quantity = quantity;
         this.reservations = reservations;
@@ -44,7 +46,7 @@ public class Livre {
         this.titre = titre;
     }
 
-    public void setAuteur(String auteur) {
+    public void setAuteur(Auteur auteur) {
         this.auteur = auteur;
     }
 
@@ -60,6 +62,10 @@ public class Livre {
         this.reservations = reservations;
     }
 
+    public void setNomAuteur(String nomAuteur) {
+        this.nomAuteur = nomAuteur;
+    }
+
     public int getIdLivre() {
         return idLivre;
     }
@@ -68,7 +74,7 @@ public class Livre {
         return titre;
     }
 
-    public String getAuteur() {
+    public Auteur getAuteur() {
         return auteur;
     }
 
@@ -83,4 +89,10 @@ public class Livre {
     public ArrayList<Reservation> getReservations() {
         return reservations;
     }
+
+    public String getNomAuteur() {
+        return nomAuteur;
+    }
+
+
 }
