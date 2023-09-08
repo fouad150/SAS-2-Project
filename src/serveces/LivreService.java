@@ -20,7 +20,7 @@ public class LivreService {
             String query = "INSERT INTO livres (titre,numero_ISBN,quantity,id_auteur) VALUES (?, ?, ?,?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, livre.getTitre());
-            statement.setInt(2, livre.getNumeroISBN());
+            statement.setString(2, livre.getNumeroISBN());
             statement.setInt(3, livre.getQuantity());
             statement.setInt(4, id);
             statement.executeUpdate();
@@ -38,7 +38,7 @@ public class LivreService {
                 String query = "UPDATE livres SET titre = ?,numero_ISBN=?,quantity=? WHERE id = ?";
                 PreparedStatement statement = connection.prepareStatement(query);
                 statement.setString(1, livre.getTitre());
-                statement.setInt(2, livre.getNumeroISBN());
+                statement.setString(2, livre.getNumeroISBN());
                 statement.setInt(3, livre.getQuantity());
                 statement.setInt(4, livre.getIdLivre());
                 statement.executeUpdate();

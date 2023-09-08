@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Livre {
     private int idLivre;
     private String titre;
-    private int numeroISBN;
+    private String numeroISBN;
     private int quantity;
 
     private  String nomAuteur;//input
@@ -15,21 +15,21 @@ public class Livre {
         this.idLivre = idLivre;
     }
 
-    public Livre(String titre, int numeroISBN, int quantity) {
+    public Livre(String titre, String numeroISBN, int quantity) {
 
         this.titre = titre;
         this.nomAuteur = nomAuteur;
         this.numeroISBN = numeroISBN;
         this.quantity = quantity;
     }
-    public Livre(int idLivre,String titre, int numeroISBN, int quantity) {
+    public Livre(int idLivre,String titre,String numeroISBN, int quantity) {
         this.idLivre=idLivre;
         this.titre = titre;
         this.numeroISBN = numeroISBN;
         this.quantity = quantity;
     }
 
-    public Livre(int idLivre,String titre, String auteur, int numeroISBN, int quantity, ArrayList<Reservation> reservations) {
+    public Livre(int idLivre,String titre, String auteur, String numeroISBN, int quantity, ArrayList<Reservation> reservations) {
         this.idLivre=idLivre;
         this.titre = titre;
         //this.auteur = auteur;
@@ -50,7 +50,7 @@ public class Livre {
         this.auteur = auteur;
     }
 
-    public void setNumeroISBN(int numeroISBN) {
+    public void setNumeroISBN(String numeroISBN) {
         this.numeroISBN = numeroISBN;
     }
 
@@ -78,7 +78,7 @@ public class Livre {
         return auteur;
     }
 
-    public int getNumeroISBN() {
+    public String getNumeroISBN() {
         return numeroISBN;
     }
 

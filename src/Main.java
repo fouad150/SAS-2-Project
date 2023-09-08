@@ -2,12 +2,14 @@ import java.util.Scanner;
 
 import serveces.LivreService;
 import serveces.AuteurService;
+import serveces.EmprunteurService;
 import models.Livre;
 import models.Auteur;
 
 public class Main {
     private static LivreService livreService = new LivreService();
     private static AuteurService auteurService=new AuteurService();
+    private static EmprunteurService emprunteurService=new EmprunteurService();
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         //ajouterLivre(scanner);
@@ -27,8 +29,7 @@ public class Main {
             int id=auteurService.checkAuteur(auteurNom);
             if(id>=1){
                 System.out.print("entrez le numero ISBN: ");
-                String input1 = scanner.nextLine();
-                int numeroISBN=Integer.parseInt(input1);
+                String numeroISBN=scanner.nextLine();
                 System.out.print("entrez la quantity: ");
                 String input2 = scanner.nextLine();
                 int quantity=Integer.parseInt(input2);
@@ -41,8 +42,7 @@ public class Main {
                 int idAuteur=arr[1];
                 if(choix==1){
                     System.out.print("entrez le numero ISBN: ");
-                    String input1 = scanner.nextLine();
-                    int numeroISBN=Integer.parseInt(input1);
+                    String numeroISBN=scanner.nextLine();
                     System.out.print("entrez la quantity: ");
                     String input2 = scanner.nextLine();
                     int quantity=Integer.parseInt(input2);
@@ -66,8 +66,7 @@ public class Main {
             //System.out.print("entrer le nom de l'auteur: ");
             //String auteurNom = scanner.nextLine();
             System.out.print("entrez le numero ISBN: ");
-            String input1 = scanner.nextLine();
-            int numeroISBN = Integer.parseInt(input1);
+            String numeroISBN=scanner.nextLine();
             System.out.print("entrez la quantity: ");
             String input2 = scanner.nextLine();
             int quantity = Integer.parseInt(input2);
@@ -114,6 +113,13 @@ public class Main {
             choixNombre=1;
         }
         return new int[]{choixNombre,idAuteur};
+    }
+
+    public static void emprunter(Scanner scanner){
+        System.out.println("entrer le code de l'emprunteur");
+        String codeEmprunteur =scanner.nextLine();
+        emprunteurService.checkEmprunteur;
+
     }
 
 
