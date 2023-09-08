@@ -12,7 +12,9 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         //ajouterLivre(scanner);
         //updateLivre(scanner);
-        deleteLivre(scanner);
+        //deleteLivre(scanner);
+        //afficherLivresDisponibles(scanner);
+        chercherLivre(scanner);
     }
 
 
@@ -87,6 +89,16 @@ public class Main {
         }else{
             System.out.println("le livre est introubale");
         }
+    }
+
+    public static void afficherLivresDisponibles(Scanner scanner){
+        livreService.afficherLivresDisponibles();
+    }
+
+    public static void chercherLivre(Scanner scanner){
+        System.out.print("entrez l'auteur ou le titre de livre: ");
+        String choix=scanner.nextLine();
+        livreService.chercherLivre(choix);
     }
 
     public static int[] ajouterAuteur(Scanner scanner,String nom){

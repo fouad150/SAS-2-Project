@@ -65,6 +65,64 @@ public class LivreService {
         }
     }
 
+    public void afficherLivresDisponibles(){
+        try{
+            String query = "SELECT * FROM livres INNER JOIN auteurs ON livres.id_auteur = auteurs.id;";
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet livresSet=statement.executeQuery();
+            int i=0;
+            while (livresSet.next()){
+                i++;
+                String titre = livresSet.getString("titre");
+                int numero_ISBN = livresSet.getInt("numero_ISBN");
+                String quantity = livresSet.getString("quantity");
+                String auteur = livresSet.getString("nom");
+
+                System.out.println("livre "+i+": ");
+                System.out.println("titre: "+livresSet.getString("titre"));
+                System.out.println("auteur: "+livresSet.getString("nom"));
+                System.out.println("numero ISBN: "+livresSet.getInt("numero_ISBN"));
+                System.out.println("quanitiy: "+livresSet.getInt("quantity"));
+                System.out.println("--------------------------");
+            }
+            if(i==0) {
+                System.out.println("il n'y a pas de livres disbonibles");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void chercherLivre(String choix){
+        try{
+            String query = "SELECT * FROM livres INNER JOIN auteurs ON livres.id_auteur = auteurs.id AND (auteurs.nom=? OR livres.titre=?)";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, choix);
+            statement.setString(2, choix);
+            ResultSet livreSet=statement.executeQuery();
+            int i=0;
+            while (livreSet.next()){
+                i++;
+                String titre = livreSet.getString("titre");
+                int numero_ISBN = livreSet.getInt("numero_ISBN");
+                String quantity = livreSet.getString("quantity");
+                String auteur = livreSet.getString("nom");
+
+                System.out.println("titre: "+livreSet.getString("titre"));
+                System.out.println("auteur: "+livreSet.getString("nom"));
+                System.out.println("numero ISBN: "+livreSet.getInt("numero_ISBN"));
+                System.out.println("quanitiy: "+livreSet.getInt("quantity"));
+
+                System.out.println("--------------------------");
+            }
+            if(i==0) {
+                System.out.println("ce livre n'existe pas");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public int checkId(int id){
         try{
             String checkQuery = "SELECT id FROM livres WHERE id = ?";
