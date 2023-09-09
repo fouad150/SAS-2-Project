@@ -140,5 +140,22 @@ public class LivreService {
         }
     }
 
+    public int checkNumeroISBN(String numeroISBN){
+        try{
+            String checkQuery = "SELECT numero_ISBN FROM livres WHERE numero_ISBN= ?";
+            PreparedStatement checkStatement = connection.prepareStatement(checkQuery);
+            checkStatement.setString(1, numeroISBN);
+            ResultSet checkResult = checkStatement.executeQuery();
+            if(checkResult.next()) {
+                return 1;
+            }else{
+                return 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
 
 }

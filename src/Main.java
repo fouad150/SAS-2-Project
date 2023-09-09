@@ -5,6 +5,7 @@ import serveces.AuteurService;
 import serveces.EmprunteurService;
 import models.Livre;
 import models.Auteur;
+import models.Emprunteur;
 
 public class Main {
     private static LivreService livreService = new LivreService();
@@ -117,22 +118,26 @@ public class Main {
 
     public static void emprunter(Scanner scanner){
         System.out.println("entrer le code de l'emprunteur");
-        String codeEmprunteur =scanner.nextLine();
+        int codeEmprunteur =scanner.nextInt();
         int empruntuerExiste=emprunteurService.checkEmprunteur(codeEmprunteur);
-        if(empruntuerExiste==0){
+        if(empruntuerExiste<1){
             System.out.println("cet utilisateur n'exsite pas , voulez-vous l'ajouter: oui/no");
             String choix=scanner.nextLine();
             if(choix=="oui"){
                 System.out.print("entrez le nom de l'utilisateur: ");
-                String nomEmprunteur=scanner.nextLinc();
+                String nomEmprunteur=scanner.nextLine();
                 Emprunteur emprunteur=new Emprunteur(nomEmprunteur,codeEmprunteur);
-                int idEmprunteur=EmprunteurService.ajouterEmprunteur(choix,emprunteur);
+                int idEmprunteur=emprunteurService.ajouterEmprunteur(choix,emprunteur);
                 if(idEmprunteur>0){
-                    System.out.println(),
+                    System.out.println("l'emprunteur a été ajouté avec succés. complétez l'operation d'emprunt:");
+                    System.out.print("entrez l'ESBN de livre:");
+                    String numeroISBN=scanner.nextLine();
+                    livreService.checkNumeroISBN(numeroISBN);
+
                 }
             }
 
-        }
+        }else{}
 
     }
 
