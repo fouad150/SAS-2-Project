@@ -118,7 +118,21 @@ public class Main {
     public static void emprunter(Scanner scanner){
         System.out.println("entrer le code de l'emprunteur");
         String codeEmprunteur =scanner.nextLine();
-        emprunteurService.checkEmprunteur;
+        int empruntuerExiste=emprunteurService.checkEmprunteur(codeEmprunteur);
+        if(empruntuerExiste==0){
+            System.out.println("cet utilisateur n'exsite pas , voulez-vous l'ajouter: oui/no");
+            String choix=scanner.nextLine();
+            if(choix=="oui"){
+                System.out.print("entrez le nom de l'utilisateur: ");
+                String nomEmprunteur=scanner.nextLinc();
+                Emprunteur emprunteur=new Emprunteur(nomEmprunteur,codeEmprunteur);
+                int idEmprunteur=EmprunteurService.ajouterEmprunteur(choix,emprunteur);
+                if(idEmprunteur>0){
+                    System.out.println(),
+                }
+            }
+
+        }
 
     }
 
