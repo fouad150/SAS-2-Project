@@ -7,14 +7,14 @@ public class EmprunteurService {
 
     public EmprunteurService() {
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sas2", "root", "");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sas22", "root", "");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
     public int checkEmprunteur(int codeEmprunteur){
         try{
-            String checkQuery="SELECT id FROM auteurs WHERE code_empruntur=?";
+            String checkQuery="SELECT id FROM emprunteurs WHERE code_emprunteur=?";
             PreparedStatement checkStatement=connection.prepareStatement(checkQuery);
             checkStatement.setInt(1,codeEmprunteur);
             ResultSet checkResult=checkStatement.executeQuery();

@@ -4,26 +4,26 @@ import java.util.Date;
 
 public class Reservation {
   private int idReservation;
-  private Date dateEmprunt;
-  private Date dateRecuperation;
+  private String dateEmprunt;
+  private String dateRecuperation;
   private String statut;
   private Livre livre;
   private Emprunteur emprunteur;
 
-  public Reservation(Date dateEmprunt, Date dateRecuperation, String statut) {
+  public Reservation(String dateEmprunt, String dateRecuperation, String statut) {
     this.dateEmprunt = dateEmprunt;
     this.dateRecuperation = dateRecuperation;
     this.statut = statut;
   }
 
-  public Reservation(int idReservation,Date dateEmprunt, Date dateRecuperation, String statut) {
+  public Reservation(int idReservation,String dateEmprunt, String dateRecuperation, String statut) {
     this.idReservation = idReservation;
     this.dateEmprunt = dateEmprunt;
     this.dateRecuperation = dateRecuperation;
     this.statut = statut;
   }
 
-  public Reservation(int idReservation,Date dateEmprunt, String statut, Livre livre, Emprunteur emprunteur) {
+  public Reservation(int idReservation,String dateEmprunt, String statut, Livre livre, Emprunteur emprunteur) {
     this.idReservation = idReservation;
     this.dateEmprunt = dateEmprunt;
     this.statut = statut;
@@ -31,7 +31,7 @@ public class Reservation {
     this.emprunteur = emprunteur;
   }
 
-  public void setDateEmprunt(Date dateEmprunt) {
+  public void setDateEmprunt(String dateEmprunt) {
     this.dateEmprunt = dateEmprunt;
   }
 
@@ -55,7 +55,7 @@ public class Reservation {
     return statut;
   }
 
-  public Date getDateEmprunt() {
+  public String getDateEmprunt() {
     return dateEmprunt;
   }
 
@@ -63,10 +63,10 @@ public class Reservation {
     this.emprunteur = emprunteur;
   }
 
-  public void setDateRecuperation(Date dateRecuperation) {
+  public void setDateRecuperation(String dateRecuperation) {
     this.dateRecuperation = dateRecuperation;
   }
-  public Date getDateRecuperation() {
+  public String getDateRecuperation() {
     return dateRecuperation;
   }
 }

@@ -21,8 +21,10 @@ public class Main {
         //deleteLivre(scanner);
         //afficherLivresDisponibles(scanner);
         //chercherLivre(scanner);
-        emprunter(scanner);
+        //emprunter(scanner);
         //retourner(scanner);
+        //livrePerdu(scanner);
+        afficherRaport(scanner);
     }
 
 
@@ -69,8 +71,6 @@ public class Main {
 
             System.out.print("entrez le titre du livre: ");
             String titre = scanner.nextLine();
-            //System.out.print("entrer le nom de l'auteur: ");
-            //String auteurNom = scanner.nextLine();
             System.out.print("entrez le numero ISBN: ");
             String numeroISBN=scanner.nextLine();
             System.out.print("entrez la quantity: ");
@@ -122,13 +122,15 @@ public class Main {
     }
 
     public static void emprunter(Scanner scanner){
-        System.out.println("entrer le code de l'emprunteur");
+        System.out.print("entrer le code de l'emprunteur: ");
         int codeEmprunteur =scanner.nextInt();
+        scanner.nextLine();//
         int emprunteurExiste=emprunteurService.checkEmprunteur(codeEmprunteur);
         if(emprunteurExiste==0){
             System.out.println("cet emprunteur n'exsite pas , voulez-vous l'ajouter: oui/no");
             String choix=scanner.nextLine();
-            if(choix=="oui"){
+
+            if(choix.equals("oui")){
                 System.out.print("entrez le nom de l'emprunteur: ");
                 String nomEmprunteur=scanner.nextLine();
                 Emprunteur emprunteur=new Emprunteur(nomEmprunteur,codeEmprunteur);
@@ -143,19 +145,27 @@ public class Main {
                         System.out.println("ce livre n'exsite pas.");
         
                     }else if(livreExiste>0){
-                        String dateEmprunt= reservationService.parseDateEmprunt();
-                        String dateRecuperation= reservationService.parseDateRecuperation();
-                        String statut="disponible";
-                        Reservation reservation=new Reservation(dateEmprunt,dateRecuperation,statut);
-                        ajouterReservation(reservation,idLivre,idEmprunteur);
+                        int quantity=livreService.checkQuantity(idLivre);
+                        if(quantity>0){
+                            livreService.decrementQuantity(idLivre);
+                            String dateEmprunt= reservationService.parseDateEmprunt();
+                            String dateRecuperation= reservationService.parseDateRecuperation();
+                            String statut="emprunté";
+                            Reservation reservation=new Reservation(dateEmprunt,dateRecuperation,statut);
+                            reservationService.ajouterReservation(reservation,idLivre,idEmprunteur);
+                        }else{
+                            System.out.println("quantité est terminée");
+                        }
+
                     }
 
-                }else(idEmprunteur==0){
+                }else if(idEmprunteur==0){
                     System.out.println("une erreur s'est produite, réessayez");
                 }
             }
 
         }else if(emprunteurExiste>0){
+            int idEmprunteur=emprunteurExiste;
             System.out.print("entrez l'ESBN de livre:");
             String numeroISBN=scanner.nextLine();
             int livreExiste=livreService.checkNumeroISBN(numeroISBN);
@@ -164,11 +174,18 @@ public class Main {
                 System.out.println("ce livre n'exsite pas.");
 
             }else if(livreExiste>0){
-                String dateEmprunt= reservationService.parseDateEmprunt();
-                String dateRecuperation= reservationService.parseDateRecuperation();
-                String statut="disponible";
-                Reservation reservation=new Reservation(dateEmprunt,dateRecuperation,statut);
-                ajouterReservation(reservation,idLivre,idEmprunteur);
+                int quantity=livreService.checkQuantity(idLivre);
+                if(quantity>0){
+                    livreService.decrementQuantity(idLivre);
+                    String dateEmprunt= reservationService.parseDateEmprunt();
+                    String dateRecuperation= reservationService.parseDateRecuperation();
+                    String statut="disponible";
+                    Reservation reservation=new Reservation(dateEmprunt,dateRecuperation,statut);
+                    reservationService.ajouterReservation(reservation,idLivre,idEmprunteur);
+                }else{
+                    System.out.println("quantité est terminée");
+                }
+
             }
         }
 
@@ -182,24 +199,25 @@ public class Main {
         if(livreExiste==0){
             System.out.println("ce livre n'exsite pas.");
         }else if(livreExiste>0){
-            System.out.println("entrer le code de l'emprunteur");
+            System.out.println("entrer le code de l'emprunteur:");
             int codeEmprunteur =scanner.nextInt();
             int emprunteurExiste=emprunteurService.checkEmprunteur(codeEmprunteur);
             if(emprunteurExiste==0){
-                System.out.println("cet emprunteur n'exsite pas");
+                System.out.println("cet emprunteur n'exsite pas.");
             }else if(emprunteurExiste>0){
                 int idEmprunteur=emprunteurExiste;
-                int reservationExiste=supprimerReservation(idEmprunteur,idLivre);
+                int reservationExiste=reservationService.supprimerReservation(idEmprunteur,idLivre);
                 if(reservationExiste==0){
-                    System.out.println("cet utilisateur n'a emprunté pas ce livre.");
+                    System.out.println("cet utilisateur n'a pas emprunté ce livre.");
                 }else if(reservationExiste==1){
+                    livreService.incrementQuantity(idLivre);
                     System.out.println("l'operation accomplie avec succés.");
                 }
             }
         }
     }
 
-    public static void livrePerdu(){
+    public static void livrePerdu(Scanner scanner){
         System.out.println("entrez numéro ISBN de livre:");
         String numeroISBN=scanner.nextLine();
         int livreExiste=livreService.checkNumeroISBN(numeroISBN);
@@ -214,14 +232,20 @@ public class Main {
                 System.out.println("cet emprunteur n'exsite pas");
             }else if(emprunteurExiste>0){
                 int idEmprunteur=emprunteurExiste;
-                int reservationExiste=livrePerdu(idEmprunteur,idLivre);
+                int reservationExiste=reservationService.livrePerdu(idEmprunteur,idLivre);
                 if(reservationExiste==0){
-                    System.out.println("cet utilisateur n'a emprunté pas ce livre.");
+                    System.out.println("cet utilisateur n'a pas emprunté ce livre.");
                 }else if(reservationExiste==1){
                     System.out.println("statut du livre a changé avec succés.");
                 }
             }
         }
+    }
+
+    public static void afficherRaport(Scanner scanner){
+        livreService.afficherLivresDisponibles();
+        livreService.afficherLivresEmpruntesEtPerdus("emprunté");
+        livreService.afficherLivresEmpruntesEtPerdus("perdu");
     }
 
 }

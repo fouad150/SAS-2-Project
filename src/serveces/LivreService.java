@@ -8,7 +8,7 @@ public class LivreService {
     public LivreService() {  //constructor
         try {
 
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sas2", "root", "");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sas22", "root", "");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -67,9 +67,13 @@ public class LivreService {
 
     public void afficherLivresDisponibles(){
         try{
+            System.out.println();
+            System.out.println();
             String query = "SELECT * FROM livres INNER JOIN auteurs ON livres.id_auteur = auteurs.id;";
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet livresSet=statement.executeQuery();
+            System.out.println("les livres disponibles:");
+            System.out.println();
             int i=0;
             while (livresSet.next()){
                 i++;
@@ -88,6 +92,44 @@ public class LivreService {
             if(i==0) {
                 System.out.println("il n'y a pas de livres disbonibles");
             }
+            System.out.println();
+            System.out.println();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void afficherLivresEmpruntesEtPerdus(String statut){
+        try{
+            String query = "SELECT *,COUNT(id_livre) FROM livres " +
+                    "INNER JOIN auteurs ON auteurs.id = livres.id_auteur " +
+                    "INNER JOIN reservations ON livres.id = reservations.id_livre " +
+                    "AND statut=? GROUP BY reservations.id_livre;";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1,statut);
+            ResultSet livresSet=statement.executeQuery();
+            System.out.println("les livres "+statut+"s:");
+            System.out.println();
+            int i=0;
+            while (livresSet.next()){
+                i++;
+                String titre = livresSet.getString("titre");
+                int numero_ISBN = livresSet.getInt("numero_ISBN");
+                String quantity = livresSet.getString("quantity");
+                String auteur = livresSet.getString("nom");
+
+                System.out.println("livre "+i+": ");
+                System.out.println("titre: "+livresSet.getString("titre"));
+                System.out.println("auteur: "+livresSet.getString("nom"));
+                System.out.println("numero ISBN: "+livresSet.getInt("numero_ISBN"));
+                System.out.println("quanitiy: "+livresSet.getInt("COUNT(id_livre)"));
+                System.out.println("--------------------------");
+            }
+            if(i==0) {
+                System.out.println("il n'y a pas de livresn"+statut+"s");
+            }
+            System.out.println();
+            System.out.println();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -154,6 +196,45 @@ public class LivreService {
         } catch (SQLException e) {
             e.printStackTrace();
             return -1;
+        }
+    }
+
+    public int checkQuantity(int id){
+        try{
+            String checkQuery = "SELECT quantity FROM livres WHERE id= ?";
+            PreparedStatement checkStatement = connection.prepareStatement(checkQuery);
+            checkStatement.setInt(1, id);
+            ResultSet checkResult = checkStatement.executeQuery();
+            if(checkResult.next()) {
+                return checkResult.getInt("quantity");
+            }else{
+                return -2;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    public void decrementQuantity(int id) {
+        try {
+            String query = "UPDATE livres SET quantity = quantity - 1 WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void incrementQuantity(int id) {
+        try {
+            String query = "UPDATE livres SET quantity = quantity +1 WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
