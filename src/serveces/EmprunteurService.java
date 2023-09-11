@@ -31,6 +31,7 @@ public class EmprunteurService {
         }
     }
 
+     
 
     public int ajouterEmprunteur(String choix,Emprunteur emprunteur){
         try{
@@ -39,7 +40,7 @@ public class EmprunteurService {
             statement.setString(1,emprunteur.getNomEmprunteur());
             statement.setInt(2,emprunteur.getCodeEmprunteur());
             statement.executeUpdate();
-
+            
 
             ResultSet generatedKeys = statement.getGeneratedKeys();
             int idEmprunteur=0;
