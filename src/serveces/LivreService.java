@@ -147,7 +147,7 @@ public class LivreService {
             checkStatement.setString(1, numeroISBN);
             ResultSet checkResult = checkStatement.executeQuery();
             if(checkResult.next()) {
-                return checkQuery.getInt("id");
+                return checkResult.getInt("id");
             }else{
                 return 0;
             }

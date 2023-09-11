@@ -29,7 +29,7 @@ public class ReservationService {
             statement.setInt(5, idEmprunteur);
             statement.executeUpdate();
 
-            System.out.println("livre a été créé avec succés");
+            System.out.println("l'operation accomplie avec succés.");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -66,5 +66,41 @@ public class ReservationService {
         }
         return dateRecuperation;
         
+    }
+
+    public int supprimerReservation(int idEmprunteur, int idLivre){
+        try  {
+            String query = "DELETE FROM reservations WHERE id_emprunteur=? AND id_livre=?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1,idEmprunteur);
+            statement.setInt(2,idLivre);
+
+            if(statement.executeUpdate()){
+                return 1;
+            }
+                return 0;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+     public int livrePerdu(int idEmprunteur, int idLivre){
+        try  {
+            String query = "UPDATE `reservations` SET `statut`='disponible' WHERE id_emprunteur=? AND id_livre=?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1,idEmprunteur);
+            statement.setInt(2,idLivre);
+
+            if(statement.executeUpdate()){
+                return 1;
+            }
+                return 0;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
     }
 }

@@ -35,6 +35,8 @@ public class AuteurService {
         }
     }
 
+      
+
     public int ajouterAuteur(Auteur auteur) {
         try  {
             String query = "INSERT INTO auteurs (nom,nationalite) VALUES (?, ?)";

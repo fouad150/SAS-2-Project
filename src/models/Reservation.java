@@ -5,7 +5,6 @@ import java.util.Date;
 public class Reservation {
   private int idReservation;
   private Date dateEmprunt;
-
   private Date dateRecuperation;
   private String statut;
   private Livre livre;
