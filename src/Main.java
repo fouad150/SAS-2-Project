@@ -14,18 +14,65 @@ public class Main {
     private static AuteurService auteurService=new AuteurService();
     private static EmprunteurService emprunteurService=new EmprunteurService();
     private static ReservationService reservationService=new ReservationService();
+
+
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        //ajouterLivre(scanner);
-        //updateLivre(scanner);
-        //deleteLivre(scanner);
-        //afficherLivresDisponibles(scanner);
-        //chercherLivre(scanner);
-        //emprunter(scanner);
-        //retourner(scanner);
-        //livrePerdu(scanner);
-        afficherRaport(scanner);
+        int choix=0;
+        do{
+            System.out.println();
+            System.out.println();
+            System.out.println("entrez 1 pour ajouter un livre.");
+            System.out.println("entrez 2 pour modifier un livre.");
+            System.out.println("entrez 3 pour supprimer un livre.");
+            System.out.println("entrez 4 pour afficher les livres disponible.");
+            System.out.println("entrez 5 pour chercher un livre.");
+            System.out.println("entrez 6 pour emprunter un livre.");
+            System.out.println("entrez 7 pour retourner un livre.");
+            System.out.println("entrez 8 pour déclarer le perte d'un livre.");
+            System.out.println("entrez 9 pour afficher le raport.");
+            System.out.println("entrez 0 pour arrêter le programme.");
+            choix=scanner.nextInt();
+            scanner.nextLine();
+            switch (choix) {
+                case 1:
+                    ajouterLivre(scanner);
+                    break;
+                case 2:
+                    updateLivre(scanner);
+                    break;
+                case 3:
+                    deleteLivre(scanner);
+                    break;
+                case 4:
+                    afficherLivresDisponibles(scanner);
+                    break;
+                case 5:
+                    chercherLivre(scanner);
+                    break;
+                case 6:
+                    emprunter(scanner);
+                    break;
+                case 7:
+                    retourner(scanner);
+                    break;
+                case 8:
+                    livrePerdu(scanner);
+                    break;
+                case 9:
+                    afficherRaport(scanner);
+                    break;
+                case 0:
+                    System.exit(0);
+                    break;
+            }
+        }while(choix>0);
     }
+
+
+
+
 
 
     public static void ajouterLivre(Scanner scanner) {
@@ -38,12 +85,18 @@ public class Main {
             if(id>=1){
                 System.out.print("entrez le numero ISBN: ");
                 String numeroISBN=scanner.nextLine();
-                System.out.print("entrez la quantity: ");
-                String input2 = scanner.nextLine();
-                int quantity=Integer.parseInt(input2);
+                int livreExiste=livreService.checkNumeroISBN(numeroISBN);
+                if(livreExiste==0){
+                    System.out.print("entrez la quantity: ");
+                    String input2 = scanner.nextLine();
+                    int quantity=Integer.parseInt(input2);
 
-                Livre livre=new Livre(titre,numeroISBN,quantity);
-                livreService.ajouterLivre(livre,id);
+                    Livre livre=new Livre(titre,numeroISBN,quantity);
+                    livreService.ajouterLivre(livre,id);
+                }else if(livreExiste>0){
+                    System.out.println("ce numéro ISBN déja existe.");
+                }
+
             }else if(id==0){
                 int[] arr= ajouterAuteur(scanner,auteurNom);
                 int choix=arr[0];
@@ -51,12 +104,17 @@ public class Main {
                 if(choix==1){
                     System.out.print("entrez le numero ISBN: ");
                     String numeroISBN=scanner.nextLine();
+                    int livreExiste=livreService.checkNumeroISBN(numeroISBN);
+                    if(livreExiste==0){
                     System.out.print("entrez la quantity: ");
                     String input2 = scanner.nextLine();
                     int quantity=Integer.parseInt(input2);
 
                     Livre livre=new Livre(titre,numeroISBN,quantity);
                     livreService.ajouterLivre(livre,idAuteur);
+                    }else if(livreExiste>0){
+                        System.out.println("ce numéro ISBN déja existe.");
+                    }
                 }
             }
 
@@ -64,33 +122,34 @@ public class Main {
 
     public static void updateLivre(Scanner scanner) {
 
-        System.out.print("entrez l'id de livre:");
-        int id=Integer.parseInt(scanner.nextLine());
-
-        if(livreService.checkId(id)==1) {
-
+        System.out.print("entrez numéro ISBN de livre pour modifier:");
+        String numeroISBN=scanner.nextLine();
+        int livreExiste=livreService.checkNumeroISBN(numeroISBN);
+        if(livreExiste>0) {
+            int id=livreExiste;
             System.out.print("entrez le titre du livre: ");
             String titre = scanner.nextLine();
-            System.out.print("entrez le numero ISBN: ");
-            String numeroISBN=scanner.nextLine();
+            System.out.print("rentrez ou changer le numero ISBN: ");
+            String nouveauNumeroISBN=scanner.nextLine();
             System.out.print("entrez la quantity: ");
-            String input2 = scanner.nextLine();
-            int quantity = Integer.parseInt(input2);
+            int quantity =scanner.nextInt();
 
-            Livre livre = new Livre(id, titre, numeroISBN, quantity);
+            Livre livre = new Livre(id, titre, nouveauNumeroISBN, quantity);
             livreService.updateLivre(livre);
 
 
-        }else{
+        }else if(livreExiste==0){
             System.out.println("le livre est introubale");
         }
     }
 
     public static void deleteLivre(Scanner scanner){
-        System.out.print("entrez l'id de livre pour le supprimer: ");
-        int id=scanner.nextInt();
-        if(livreService.checkId(id)==1) {
-        livreService.deleteLivre(id);
+        System.out.print("entrez numéro ISBN de livre pour supprimer:");
+        String numeroISBN=scanner.nextLine();
+        int livreExiste=livreService.checkNumeroISBN(numeroISBN);
+        if(livreExiste>0) {
+            int id=livreExiste;
+            livreService.deleteLivre(id);
         }else{
             System.out.println("le livre est introubale");
         }
@@ -112,7 +171,7 @@ public class Main {
         int choixNombre=0;
         int idAuteur=0;
         if(choix.equals("oui")){
-            System.out.println("entrez la nationalité: ");
+            System.out.print("entrez la nationalité: ");
             String nationalite=scanner.nextLine();
             Auteur auteur=new Auteur(nom,nationalite);
             idAuteur=auteurService.ajouterAuteur(auteur);

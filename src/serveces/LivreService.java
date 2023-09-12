@@ -78,15 +78,15 @@ public class LivreService {
             while (livresSet.next()){
                 i++;
                 String titre = livresSet.getString("titre");
-                int numero_ISBN = livresSet.getInt("numero_ISBN");
-                String quantity = livresSet.getString("quantity");
+                String numero_ISBN = livresSet.getString("numero_ISBN");
+                int quantity = livresSet.getInt("quantity");
                 String auteur = livresSet.getString("nom");
 
                 System.out.println("livre "+i+": ");
-                System.out.println("titre: "+livresSet.getString("titre"));
-                System.out.println("auteur: "+livresSet.getString("nom"));
-                System.out.println("numero ISBN: "+livresSet.getInt("numero_ISBN"));
-                System.out.println("quanitiy: "+livresSet.getInt("quantity"));
+                System.out.println("titre: "+titre);
+                System.out.println("auteur: "+auteur);
+                System.out.println("numero ISBN: "+numero_ISBN);
+                System.out.println("quanitiy: "+quantity);
                 System.out.println("--------------------------");
             }
             if(i==0) {
@@ -114,15 +114,15 @@ public class LivreService {
             while (livresSet.next()){
                 i++;
                 String titre = livresSet.getString("titre");
-                int numero_ISBN = livresSet.getInt("numero_ISBN");
-                String quantity = livresSet.getString("quantity");
+                String numero_ISBN = livresSet.getString("numero_ISBN");
+                String quantity = livresSet.getString("COUNT(id_livre)");
                 String auteur = livresSet.getString("nom");
 
                 System.out.println("livre "+i+": ");
-                System.out.println("titre: "+livresSet.getString("titre"));
-                System.out.println("auteur: "+livresSet.getString("nom"));
-                System.out.println("numero ISBN: "+livresSet.getInt("numero_ISBN"));
-                System.out.println("quanitiy: "+livresSet.getInt("COUNT(id_livre)"));
+                System.out.println("titre: "+titre);
+                System.out.println("auteur: "+auteur);
+                System.out.println("numero ISBN: "+numero_ISBN);
+                System.out.println("quanitiy: "+quantity);
                 System.out.println("--------------------------");
             }
             if(i==0) {
@@ -146,14 +146,14 @@ public class LivreService {
             while (livreSet.next()){
                 i++;
                 String titre = livreSet.getString("titre");
-                int numero_ISBN = livreSet.getInt("numero_ISBN");
+                String numero_ISBN = livreSet.getString("numero_ISBN");
                 String quantity = livreSet.getString("quantity");
                 String auteur = livreSet.getString("nom");
 
-                System.out.println("titre: "+livreSet.getString("titre"));
-                System.out.println("auteur: "+livreSet.getString("nom"));
-                System.out.println("numero ISBN: "+livreSet.getInt("numero_ISBN"));
-                System.out.println("quanitiy: "+livreSet.getInt("quantity"));
+                System.out.println("titre: "+titre);
+                System.out.println("auteur: "+auteur);
+                System.out.println("numero ISBN: "+numero_ISBN);
+                System.out.println("quantité: "+quantity);
 
                 System.out.println("--------------------------");
             }
